@@ -21,27 +21,31 @@ app.use(bodyParser.json())
 
 const mongoose = require('mongoose');
 
-const strConnection = 'mongodb+srv://admin:admin@cluster0.8taek.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+//link to connect to my made mongo database (generic admin name and password were created)
+const strConnection = 'mongodb+srv://admin:admin@cluster0.vn1nv.mongodb.net/movies?retryWrites=true&w=majority'
 
 main().catch(err => console.log(err));
 
+//connect to my database after waiting
 async function main() {
   await mongoose.connect(strConnection);
 }
 
+//schema to tell what kinda data is going to be there and types
 const movieSchema = new mongoose.Schema({
     Title:String,
     Year:String,
     Poster:String
 });
 
-const movieModel = mongoose.model('martin', movieSchema);
-
+//model for the data base (use variable whenever you want to call)
+const movieModel = mongoose.model('donal', movieSchema);
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
+//post the type of data i want from create
 app.post('/api/movies', (req,res)=>{
     console.log(req.body);
     console.log(req.body.Title);
@@ -56,6 +60,7 @@ app.post('/api/movies', (req,res)=>{
     res.send('Data Sent to Server!')
 })
 
+//get infomation from the json
 app.get('/api/movies/:id',(req, res)=>{
     console.log(req.params.id);
 
@@ -64,6 +69,7 @@ app.get('/api/movies/:id',(req, res)=>{
     })
 })
 
+//put my information to moviemodel
 app.put('/api/movies/:id',(req, res)=>{
     console.log('update');
     console.log(req.body);
@@ -74,6 +80,15 @@ app.put('/api/movies/:id',(req, res)=>{
             res.send(data);
         })
 
+})
+
+//delete code to connect later in /read
+app.delete('/api/movies/:id',(req, res)=>{
+    console.log("Delete Movie: "+req.params.id);
+
+    movieModel.findByIdAndDelete(req.params.id,(err, data)=>{
+        res.send(data);
+    })
 })
 
 app.get('/api/movies', (req, res) => {

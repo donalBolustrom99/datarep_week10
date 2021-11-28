@@ -15,6 +15,7 @@ class Create extends Component {
         }
     }
 
+    //event to handle everything, looks and makes variables for main data
     handleSubmit(event) {
         console.log("Name: " +this.state.Title+
         " Year: " + this.state.Year +
@@ -26,7 +27,8 @@ class Create extends Component {
             Poster: this.state.Poster
         }
 
-        axios.post('http://localhost:4000/api/movies', NewMovie)
+        //axios to post to the local lost
+        axios.post('http://localhost:3000/api/movies', NewMovie)
         .then((response)=>{
             console.log(response)
         })
@@ -41,6 +43,7 @@ class Create extends Component {
             Poster:''
         });
     }
+    //methods to create data
     onChangeMovieName(event) {
         this.setState({
             Title: event.target.value
@@ -57,6 +60,7 @@ class Create extends Component {
         })
     }
 
+    //main code to form cards
     render() {
         return (
             <div>
